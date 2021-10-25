@@ -16,6 +16,7 @@ This program proposes a kernel reinstallation after the complete update that you
 
 ### Icon
 [![icon](https://i.imgur.com/8rJR81V.png)](https://i.imgur.com/8rJR81V.png)
+
 the icon changes to show number of pending updates
 
 ### Installation
@@ -36,6 +37,7 @@ Ce programme propose une réinstallation de noyaux après la mis a jours complè
 
 ### Icon
 [![icon](https://i.imgur.com/8rJR81V.png)](https://i.imgur.com/8rJR81V.png)
+
 l'icon change pour afficher le nombre de mis a jours en attente
 
 ### Installation
