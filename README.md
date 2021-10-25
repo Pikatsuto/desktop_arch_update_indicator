@@ -26,7 +26,7 @@ cd desktop_arch_update_indicator
 bash install_desktop_arch_update_indicator.sh
 ```
 
-le script d'installation vas vous poser ces question a vous de réponde celons votre système
+the installation script will ask you these questions according to your system
 [![install](https://i.imgur.com/PaLUXfz.png)](https://i.imgur.com/PaLUXfz.png)
 
 ## FR
@@ -47,5 +47,5 @@ cd desktop_arch_update_indicator
 bash install_desktop_arch_update_indicator.sh
 ```
 
-the installation script will ask you these questions according to your system
+le script d'installation vas vous poser ces question a vous de réponde celons votre système
 [![install](https://i.imgur.com/PaLUXfz.png)](https://i.imgur.com/PaLUXfz.png)
