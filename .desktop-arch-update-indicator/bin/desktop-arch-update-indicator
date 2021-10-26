@@ -1,0 +1,160 @@
+#!/bin/bash
+
+function start {
+    echo "Démarage du service"
+    while [ true ]
+    do
+        count_update
+        sleep 600
+    done
+}
+
+function packet_install {
+    if [ -e /etc/desktop-arch-update-indicator/powerpill_present ]
+    then
+        sudo powerpill $*
+    else
+        sudo pacman $*
+    fi
+}
+
+function fix_karnel {
+    if [ -e /etc/desktop-arch-update-indicator/karnel_c ]
+    then
+        echo "Réinstallation du karnel linux"
+        packet_install -Rsucn linux linux-headers
+        packet_install -S linux linux-headers
+    elif [ -e /etc/desktop-arch-update-indicator/karnel_l ]
+    then
+        echo "Réinstallation du karnel linux-lts"
+        packet_install -Rsucn linux-lts linux-lts-headers
+        packet_install -S linux-lts linux-lts-headers
+    elif [ -e /etc/desktop-arch-update-indicator/karnel_z ]
+    then
+        echo "Réinstallation du karnel linux-zen"
+        packet_install -Rsucn linux-zen linux-zen-headers
+        spacket_install -S linux-zen linux-zen-headers
+    elif [ -e /etc/desktop-arch-update-indicator/karnel_t ]
+    then
+        echo "Réinstallation du karnel linux-tkg-pds"
+        packet_install -Rsucn linux-tkg-pds linux-tkg-pds-headers
+        packet_install -S linux-tkg-pds linux-tkg-pds-headers
+    fi
+}
+
+function count_update {
+    echo "contage des mis a jours"
+
+    time_name=$(date +%k:%M:%S)
+    nb_update=$(checkupdates | wc -l)
+
+    rm -Rf "$path/image_compile"
+    mkdir "$path/image_compile"
+
+    convert /usr/share/desktop-arch-update-indicator/images/update_img.png -gravity North -pointsize 500 -fill white -annotate +0+290 $nb_update /usr/share/desktop-arch-update-indicator/images/arch_update_img_edited.png
+    mv "/usr/share/desktop-arch-update-indicator/images/arch_update_img_edited.png" "/usr/share/desktop-arch-update-indicator/images/image_compile/$time_name.png"
+
+    rm "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    touch "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+
+    echo "[Desktop Entry]" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Version=1.0" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Type=Application" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Terminal=true" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Exec=desktop-arch-update-indicator --update" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Name=Update Arch" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Icon=/usr/share/desktop-arch-update-indicator/images/image_compile/$time_name.png" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    desktop-file-validate "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+}
+
+function update {
+    if [ -e /etc/desktop-arch-update-indicator/powerpill_present ]
+    then
+        sudo pacman -Syy && sudo powerpill -Su
+    else
+        sudo pacman -Syyu
+    fi
+
+    if [ -e /etc/desktop-arch-update-indicator/aur_present ]
+    then
+        yay -Syyu
+    fi
+
+    echo ""
+    read -p "Avez vous besoin de fixer le karnel [o/N]: " if_fix_karnel
+    if [ $if_fix_karnel == "o" ]
+    then
+        fix_karnel
+    fi
+    echo ""
+    read -s -n 1 -p "Faite entré pour sortire . . ."
+    echo ""
+    count_update
+}
+
+function config {
+    echo "Paramétrage du programe"
+    echo ""
+
+    sudo rm /etc/desktop-arch-update-indicator/*
+
+    read -p "Utilisez vous powerpill [o/N]: " if_powerpill
+    if [ $if_powerpill == "o" ]
+    then
+        sudo touch /etc/desktop-arch-update-indicator/powerpill_present
+    fi
+
+    read -p "Utilisez vous aur [O/n]: " if_aur
+    if [ $if_powerpill != "n" ]
+    then
+        sudo touch /etc/desktop-arch-update-indicator/aur_present
+    fi
+
+    read -p "Utilisez vous le karnel Clasique (linux)[C], Zen[z], LTS[l] ou TKG-PDS (Gaming)[t]: " karnel
+    if [ $karnel == "z" ]
+    then
+        sudo touch /etc/desktop-arch-update-indicator/karnel_z
+    elif [ $karnel == "l" ]
+    then
+        sudo touch /etc/desktop-arch-update-indicator/karnel_l
+    elif [ $karnel == "t" ]
+    then
+        sudo touch /etc/desktop-arch-update-indicator/karnel_t
+    else
+        sudo touch /etc/desktop-arch-update-indicator/karnel_c
+    fi
+}
+
+function service {
+    systemctl --user daemon-reload
+    systemctl --user enable --now desktop_arch_update_indicator.service
+    systemctl --user restart desktop_arch_update_indicator.service
+}
+
+if [ -e /etc/desktop-arch-update-indicator/no_config ]
+then
+    config
+    service
+else
+    if [ -z "$1" ]
+    then
+        start
+    else
+        if [ $1 == "--start" ]
+        then
+            start
+        elif [ $1 == "--count_update" ]
+        then
+            count_update
+        elif [ $1 == "--update" ]
+        then
+            update
+        elif [ $1 == "--config" ]
+        then
+            config
+        fi
+    fi
+fi
+
+exit
