@@ -46,10 +46,14 @@ function count_update {
     time_name=$(date +%k:%M:%S)
     nb_update=$(checkupdates | wc -l)
 
-    rm -Rf "$path/image_compile/*"
+    rm -Rf "$path/image_compile"
+    mkdir "$path/image_compile"
 
     convert update_img.png -gravity North -pointsize 500 -fill white -annotate +0+290 $nb_update arch_update_img_edited.png
     mv "$path/arch_update_img_edited.png" "$path/image_compile/$time_name.png"
+
+    rm "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    touch "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
 
     echo "[Desktop Entry]" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
     echo "" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
