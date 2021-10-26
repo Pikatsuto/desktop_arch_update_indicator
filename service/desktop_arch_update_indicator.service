@@ -2,7 +2,7 @@
 Description=Arch Update
 
 [Service]
-ExecStart=$HOME/.desktop_arch_update_indicator/main.sh
+ExecStart=/home/gabriel/.desktop_arch_update_indicator/main.sh
 
 [Install]
 WantedBy=default.target

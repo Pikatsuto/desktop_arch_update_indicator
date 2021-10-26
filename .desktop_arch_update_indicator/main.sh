@@ -93,17 +93,20 @@ function update {
 
 cd $path
 
-if [ $1 == "--start" ]
+if [ -z "$1" ]
 then
     start
-elif [ $1 == "--count_update" ]
-then
-    count_update
-elif [ $1 == "--update" ]
-then
-    update    
 else
-    start
+    if [ $1 == "--start" ]
+    then
+        start
+    elif [ $1 == "--count_update" ]
+    then
+        count_update
+    elif [ $1 == "--update" ]
+    then
+        update
+    fi
 fi
 
 exit
