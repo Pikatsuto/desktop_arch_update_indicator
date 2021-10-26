@@ -68,4 +68,6 @@ apps_setings
 programe_install
 servie_install
 echo ""
+systemctl --user status desktop_arch_update_indicator.service
+echo ""
 echo "Installation fini"
