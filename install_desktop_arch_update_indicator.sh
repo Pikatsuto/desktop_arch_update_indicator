@@ -39,11 +39,11 @@ function programe_install {
     cp -Rf ./.desktop_arch_update_indicator_conf $HOME/.desktop_arch_update_indicator
     sudo chown $USER $HOME/.desktop_arch_update_indicator
     rm -Rf ./.desktop_arch_update_indicator_conf
+    chmod +x $HOME/.desktop_arch_update_indicator/main.sh
 }
 
 function servie_install {
     echo "Installation du service"
-
 
     sudo rm -Rf "/usr/lib/systemd/user/desktop_arch_update_indicator.service"
     rm -Rf "service/desktop_arch_update_indicator.service"
@@ -57,7 +57,6 @@ function servie_install {
     echo "" >> "service/desktop_arch_update_indicator.service"
     echo "[Install]" >> "service/desktop_arch_update_indicator.service"
     echo "WantedBy=default.target" >> "service/desktop_arch_update_indicator.service"
-
 
     sudo cp -Rf service/desktop_arch_update_indicator.service /usr/lib/systemd/user/desktop_arch_update_indicator.service
     systemctl --user daemon-reload
