@@ -23,7 +23,8 @@ the icon changes to show number of pending updates
 ```
 git clone https://github.com/Pikatsuto/desktop_arch_update_indicator.git
 cd desktop_arch_update_indicator
-bash install_desktop_arch_update_indicator.sh
+makepkg
+yay -U [Package_Name]
 ```
 
 the installation script will ask you these questions according to your system
@@ -44,7 +45,8 @@ l'icon change pour afficher le nombre de mis a jours en attente
 ```
 git clone https://github.com/Pikatsuto/desktop_arch_update_indicator.git
 cd desktop_arch_update_indicator
-bash install_desktop_arch_update_indicator.sh
+makepkg
+yay -U [Nom_Du_Paquet]
 ```
 
 le script d'installation vas vous poser ces question a vous de réponde celons votre système
