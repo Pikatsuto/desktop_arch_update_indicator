@@ -1,0 +1,8 @@
+[Desktop Entry]
+
+Version=1.0
+Type=Application
+Terminal=true
+Exec=desktop-arch-update-indicator --update
+Name=Update Arch
+Icon=/usr/share/desktop-arch-update-indicator/images/update_img.png

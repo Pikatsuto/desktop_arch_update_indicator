@@ -54,18 +54,17 @@ function count_update {
     convert /usr/share/desktop-arch-update-indicator/images/update_img.png -gravity North -pointsize 500 -fill white -annotate +0+290 $nb_update /usr/share/desktop-arch-update-indicator/images/arch_update_img_edited.png
     mv "/usr/share/desktop-arch-update-indicator/images/arch_update_img_edited.png" "/usr/share/desktop-arch-update-indicator/images/image_compile/$time_name.png"
 
-    rm "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    touch "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    printf "" > "/usr/share/applications/desktop_arch_update_indicator.desktop"
 
-    echo "[Desktop Entry]" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Version=1.0" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Type=Application" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Terminal=true" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Exec=desktop-arch-update-indicator --update" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Name=Update Arch" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    echo "Icon=/usr/share/desktop-arch-update-indicator/images/image_compile/$time_name.png" >> "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
-    desktop-file-validate "$HOME/.local/share/applications/desktop_arch_update_indicator.desktop"
+    echo "[Desktop Entry]" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Version=1.0" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Type=Application" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Terminal=true" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Exec=desktop-arch-update-indicator --update" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Name=Update Arch" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    echo "Icon=/usr/share/desktop-arch-update-indicator/images/image_compile/$time_name.png" >> "/usr/share/applications/desktop_arch_update_indicator.desktop"
+    desktop-file-validate "/usr/share/applications/desktop_arch_update_indicator.desktop"
 }
 
 function update {
